@@ -1,0 +1,3 @@
+rootProject.name = 'gradle-multiproject-draft'
+
+include 'draft-module'

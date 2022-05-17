@@ -1,0 +1,55 @@
+plugins {
+    id 'idea'
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
+}
+
+idea {
+    project {
+        languageLevel = 17
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+allprojects {
+    group "com.draft"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    apply plugin: "io.spring.dependency-management"
+    dependencyManagement {
+        dependencies {
+            imports {
+                mavenBom("org.springframework.boot:spring-boot-dependencies:2.6.6")
+            }
+            /* If you need a library of a certain version that is not listed in the BOM (guava just as an example) */
+            dependency "com.google.guava:guava:${Versions.guava}"
+        }
+    }
+
+    configurations.all {
+        /* Enable version conflict checking */
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
+        resolutionStrategy {
+            /* In case of conflict in jna Gradle will take the below version */
+            force("net.java.dev.jna:jna:5.8.0")
+        }
+    }
+}
+
+/* Task to display BOM content */
+task managedVersions {
+    doLast {
+        dependencyManagement.managedVersions.each {
+            println it
+        }
+    }
+}

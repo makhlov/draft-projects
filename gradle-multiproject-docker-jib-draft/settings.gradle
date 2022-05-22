@@ -1,0 +1,3 @@
+rootProject.name = 'gradle-multiproject-docker-jib-draft'
+
+include 'draft-module'

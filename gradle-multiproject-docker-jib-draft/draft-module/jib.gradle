@@ -1,0 +1,20 @@
+jib {
+    container.creationTime = 'USE_CURRENT_TIMESTAMP'
+    from {
+        image = 'bellsoft/liberica-openjdk-alpine-musl:17.0.2-9'
+    }
+    to {
+        tags = ['v1']
+        image = 'registry.gitlab.com/makhlov/personal-registry/hello-docker-java'
+        /* https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry */
+
+        /* Storage: ~/.gradle/gradle.properties
+         * Jib Auth: https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#using-specific-credentials
+         * Create Gitlab token: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+         */
+        auth {
+            username = gitlabUser
+            password = gitlabToken
+        }
+    }
+}
